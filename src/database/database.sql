@@ -77,31 +77,12 @@ CREATE TABLE "vacinacoes"(
     "id" SERIAL NOT NULL,
     "pet_id" INTEGER NOT NULL,
     "vacina_id" INTEGER NOT NULL,
+    "observacoes" TEXT NULL,
     "criado_em" TIMESTAMP(0) WITH TIME ZONE NOT NULL DEFAULT NOW(),
     "atualizado_em" TIMESTAMP(0) WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 ALTER TABLE
     "vacinacoes" ADD PRIMARY KEY("id");
-
-CREATE TABLE "vacinacoes_historico"(
-    "id" SERIAL NOT NULL,
-    "status" VARCHAR(255) CHECK
-        (
-            "status" IN(
-                'AGENDADA',
-                'APLICADA',
-                'ATRASADA',
-                'CANCELADA',
-                'REAGENDADA'
-            )
-        ) NOT NULL,
-    "observacao" TEXT NOT NULL,
-    "vacinacao_id" INTEGER NOT NULL,
-    "criado_em" TIMESTAMP(0) WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    "atualizado_em" TIMESTAMP(0) WITH TIME ZONE NOT NULL DEFAULT NOW()
-);
-ALTER TABLE
-    "vacinacoes_historico" ADD PRIMARY KEY("id");
 
 CREATE TABLE "usuarios"(
     "id" SERIAL NOT NULL,
@@ -128,5 +109,3 @@ ALTER TABLE
     "vacinacoes" ADD CONSTRAINT "vacinacoes_pet_id_foreign" FOREIGN KEY("pet_id") REFERENCES "pets"("id");
 ALTER TABLE
     "vacinacoes" ADD CONSTRAINT "vacinacoes_vacina_id_foreign" FOREIGN KEY("vacina_id") REFERENCES "vacinas"("id");
-ALTER TABLE
-    "vacinacoes_historico" ADD CONSTRAINT "vacinacoes_historico_vacinacao_id_foreign" FOREIGN KEY("vacinacao_id") REFERENCES "vacinacoes"("id");
